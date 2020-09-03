@@ -1,0 +1,8 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/poohcid/mobile.git",
+  "author": "pooh",
+  "license": "MIT"
+}
