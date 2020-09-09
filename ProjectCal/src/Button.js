@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-const Button = ({ text1, setPrefix }) => {
+const Button = ({ text1, setInfix }) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={(e) => setPrefix(e, text1)}
+      onPress={(e) => setInfix(e, text1)}
     >
       <Text style={{ fontSize: 32, color: "white" }}>{text1}</Text>
     </TouchableOpacity>

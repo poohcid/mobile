@@ -3,76 +3,68 @@ import { StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 
 const Keyboard = ({ setText, text, setResult }) => {
-  const setPrefix = (e, text1) => {
-    let number = text.pop();
-    number = number + text1;
-    setText([...text, number]);
-    console.log(text, text.length);
-  };
-  const operator = (e, text1) => {
-    if (text.length !== 0) setText([...text, text1, ""]);
+  const setInfix = (e, text1) => {
+    setText(text+text1)
   };
   const deleteText = (e) => {
-    let last = text.pop();
-    console.log(last);
-    if (last !== "") {
-      last = last.slice(0, last.length - 1);
-      setText([...text, last]);
-    } else {
-      setText([text]);
+    if (text !== "") {
+      text = text.slice(0, text.length - 1);
+      setText(text);
     }
   };
   const calculate = (e) => {
-    let sum = "No";
-    let action = "";
-    text.forEach((value, index) => {
-      if (action !== "") {
-        if (action === "+") {
-          sum = sum + Number(value);
-        } else if (action === "-") {
-          sum = sum - Number(value);
-        }
-        action = "";
-      } else {
-        if (value === "+") {
-          action = "+";
-        } else if (value === "-") {
-          action = "-";
-        } else {
-          if (sum === "No") {
-            sum = Number(value);
-          }
+    try {
+      const sum = eval(text);
+      setResult(sum);
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+         setResult("Error")
+    }
+  }
+  };
+  const setDot = (e, text1) =>{
+    let isSet = false
+    text.split("").forEach((value, index, arr) =>{
+      if (value === "."){
+        isSet = false
+      }
+      else if (isNaN(value)){
+        isSet = true
+        if (index === arr.length - 1){
+          isSet = false
         }
       }
-    });
-    setResult(sum);
-  };
+    })
+    if (isSet){
+      setText(text+text1)
+     }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.col1}>
-        <Button text1={"1"} setPrefix={setPrefix} />
-        <Button text1={"4"} setPrefix={setPrefix} />
-        <Button text1={"7"} setPrefix={setPrefix} />
-        <Button text1={"."} setPrefix={setPrefix} />
+        <Button text1={"1"} setInfix={setInfix} />
+        <Button text1={"4"} setInfix={setInfix} />
+        <Button text1={"7"} setInfix={setInfix} />
+        <Button text1={"."} setInfix={setDot} />
       </View>
       <View style={styles.col1}>
-        <Button text1={"2"} setPrefix={setPrefix} />
-        <Button text1={"5"} setPrefix={setPrefix} />
-        <Button text1={"8"} setPrefix={setPrefix} />
-        <Button text1={"0"} setPrefix={setPrefix} />
+        <Button text1={"2"} setInfix={setInfix} />
+        <Button text1={"5"} setInfix={setInfix} />
+        <Button text1={"8"} setInfix={setInfix} />
+        <Button text1={"0"} setInfix={setInfix} />
       </View>
       <View style={styles.col1}>
-        <Button text1={"3"} setPrefix={setPrefix} />
-        <Button text1={"6"} setPrefix={setPrefix} />
-        <Button text1={"9"} setPrefix={setPrefix} />
-        <Button text1={"="} setPrefix={calculate} />
+        <Button text1={"3"} setInfix={setInfix} />
+        <Button text1={"6"} setInfix={setInfix} />
+        <Button text1={"9"} setInfix={setInfix} />
+        <Button text1={"="} setInfix={calculate} />
       </View>
       <View style={styles.col2}>
-        <Button text1={"Del"} setPrefix={deleteText} />
-        <Button text1={"+"} setPrefix={operator} />
-        <Button text1={"-"} setPrefix={operator} />
-        <Button text1={"*"} setPrefix={operator} />
-        <Button text1={"/"} setPrefix={operator} />
+        <Button text1={"Del"} setInfix={deleteText} />
+        <Button text1={"+"} setInfix={setInfix} />
+        <Button text1={"-"} setInfix={setInfix} />
+        <Button text1={"*"} setInfix={setInfix} />
+        <Button text1={"/"} setInfix={setInfix} />
       </View>
     </View>
   );
