@@ -7,6 +7,7 @@ import UselessTextInputMultiline from "./src/UselessTextInputMultiline";
 import ScrollViewComponent from "./src/ScrollViewComponent";
 import StyleSheetView from "./src/StyleSheetView";
 import AbsoluteFillObject from "./src/AbsoluteFillObject";
+import HairlineWidth from "./src/HairlineWidth";
 
 export default function App() {
   return (
@@ -15,7 +16,8 @@ export default function App() {
     //<UselessTextInputMultiline />
     //<ScrollViewComponent />
     //<StyleSheetView />
-    <AbsoluteFillObject />
+    //<AbsoluteFillObject />
+    <HairlineWidth />
   );
 }
 
