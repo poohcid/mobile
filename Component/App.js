@@ -1,21 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import TextComponent from "./src/TextComponent";
+import BoldAndBeautiful from "./src/BoldAndBeautiful";
+import UselessTextInputMultiline from "./src/UselessTextInputMultiline";
+import ScrollViewComponent from "./src/ScrollViewComponent";
+import StyleSheetView from "./src/StyleSheetView";
+import AbsoluteFillObject from "./src/AbsoluteFillObject";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    //<TextComponent />
+    //<BoldAndBeautiful />
+    //<UselessTextInputMultiline />
+    //<ScrollViewComponent />
+    //<StyleSheetView />
+    <AbsoluteFillObject />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
