@@ -19,7 +19,7 @@ function getNextId() {
 export function createTextMessage(desc) {
   return {
     type: "text",
-    id: getNextId(),
+    id: getNextId()+"",
     desc,
   };
 }
@@ -27,14 +27,14 @@ export function createTextMessage(desc) {
 export function createImageMessage(uri) {
   return {
     type: "image",
-    id: getNextId(),
+    id: getNextId()+"",
     uri,
   };
 }
 export function createLocationMessage(coordinate) {
   return {
     type: "location",
-    id: getNextId(),
+    id: getNextId()+"",
     coordinate,
   };
 }
