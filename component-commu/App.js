@@ -1,21 +1,63 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import Header from "./components/Header";
+import GameOverScreen from "./screens/GameOverScreen";
+import GameScreen from "./screens/GameScreen";
+import StartGameScreen from "./screens/StartGameScreen";
 
 export default function App() {
+  const gameOverHandle = (round, correctNumber) => {
+    setContent(
+      <GameOverScreen
+        round={round}
+        correctNumber={correctNumber}
+        startGameHandler={startGameHandler}
+      />
+    );
+  };
+
+  const startGameHandler = () => {
+    const rndNum = Math.floor(Math.random() * 100);
+    setContent(<GameScreen rndNum={rndNum} gameOverHandle={gameOverHandle} />);
+  };
+
+  const [correctNumber, setCorrectNumber] = useState(0);
+  const [content, setContent] = useState(
+    <StartGameScreen onStartGame={startGameHandler} />
+  );
+
+  // ฟังก์ชันสำหรับการเริ่มเกมใหม่
+  const configureNewGameHandler = () => {
+    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท guessRounds ให้เป็น 0
+    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท correctNumber ให้เป็น 0
+  };
+
+  // ฟังก์ชันสำหรับจัดการการจบเกม
+  const gameOverHandler = (numOfRounds) => {
+    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท guessRounds ด้วยค่า numOfRounds ที่รับมา
+  };
+
+  //let content = <StartGameScreen onStartGame={startGameHandler} />;
+
+  // if (correctNumber > 0 && guessRounds <= 0) {
+  //  console.log(correctNumber);
+  // } else if (guessRounds > 0) {
+  // ทำการเรียก GameOverScreen
+  // content = (
+  //   <GameOverScreen ...เขียนโค้ดเพิ่ม... />
+  // );
+  //}
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.screen}>
+      <Header title="Guess a Number" />
+      {content}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
