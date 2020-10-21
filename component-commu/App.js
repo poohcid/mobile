@@ -6,47 +6,40 @@ import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 
 export default function App() {
-  const gameOverHandle = (round, correctNumber) => {
-    setContent(
-      <GameOverScreen
-        round={round}
-        correctNumber={correctNumber}
-        startGameHandler={startGameHandler}
-      />
-    );
+  const [correctNumber, setCorrectNumber] = useState(0);
+  const [guessRounds, setGuessRounds] = useState(0);
+
+  const configureNewGameHandler = () => {
+    setGuessRounds(0);
+    setCorrectNumber(0);
   };
 
   const startGameHandler = () => {
-    const rndNum = Math.floor(Math.random() * 100);
-    setContent(<GameScreen rndNum={rndNum} gameOverHandle={gameOverHandle} />);
+    const randomNumber = Math.floor(Math.random() * 100);
+    console.log(randomNumber);
+    setCorrectNumber(randomNumber);
   };
 
-  const [correctNumber, setCorrectNumber] = useState(0);
-  const [content, setContent] = useState(
-    <StartGameScreen onStartGame={startGameHandler} />
-  );
-
-  // ฟังก์ชันสำหรับการเริ่มเกมใหม่
-  const configureNewGameHandler = () => {
-    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท guessRounds ให้เป็น 0
-    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท correctNumber ให้เป็น 0
-  };
-
-  // ฟังก์ชันสำหรับจัดการการจบเกม
   const gameOverHandler = (numOfRounds) => {
-    //   ...เพิ่มโค้ด...อัพเดทค่าสเตท guessRounds ด้วยค่า numOfRounds ที่รับมา
+    setGuessRounds(numOfRounds);
   };
 
-  //let content = <StartGameScreen onStartGame={startGameHandler} />;
+  let content = <StartGameScreen onStartGame={startGameHandler} />;
 
-  // if (correctNumber > 0 && guessRounds <= 0) {
-  //  console.log(correctNumber);
-  // } else if (guessRounds > 0) {
-  // ทำการเรียก GameOverScreen
-  // content = (
-  //   <GameOverScreen ...เขียนโค้ดเพิ่ม... />
-  // );
-  //}
+  if (correctNumber > 0 && guessRounds <= 0) {
+    content = (
+      <GameScreen answer={correctNumber} onGameOver={gameOverHandler} />
+    );
+  } else if (guessRounds > 0) {
+    content = (
+      <GameOverScreen
+        answer={correctNumber}
+        onGameOver={gameOverHandler}
+        newgame={configureNewGameHandler}
+        round={guessRounds}
+      />
+    );
+  }
 
   return (
     <View style={styles.screen}>

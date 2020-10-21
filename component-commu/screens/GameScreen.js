@@ -1,71 +1,55 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  Keyboard,
+} from "react-native";
 import Colors from "../constants/colors";
 
 const GameScreen = (props) => {
-  // ...เพิ่มโค้ดกำหนด state...
-  const { rndNum, gameOverHandle } = props;
-  const [confirmedOutput, setconfirmedOutput] = useState();
-  const [guessRounds, setguessRounds] = useState(1);
-  //let confirmedOutput;
-  const [number, setNumber] = useState(0);
+  const [enteredValue, setEnteredValue] = useState("");
+  const [selectedNumber, setSelectedNumber] = useState();
+  const [confirmed, setConfirmed] = useState(false);
+  const [rounds, setRounds] = useState(0);
 
-  const checkNumber = (number) => {
-    if (number === rndNum) {
-      return "correct";
-    } else if (number > rndNum) {
-      return "greater";
-    } else {
-      return "lower";
-    }
-  };
+  let confirmedOutput;
 
-  const confrimHandle = () => {
-    if (checkNumber(number) === "correct") {
-      gameOverHandle(guessRounds, rndNum);
+  var poom = "";
+  if (confirmed) {
+    if (selectedNumber == props.answer) {
+      props.onGameOver(rounds);
     }
-    setconfirmedOutput(
+    confirmedOutput = (
       <View style={styles.resultContainer}>
         <Text>You selected</Text>
         <View style={styles.numberContainer}>
-          <Text style={styles.number}>{number}</Text>
+          <Text style={styles.number}>{selectedNumber}</Text>
         </View>
         <Text>
-          The answer is {checkNumber(number)} Round: {guessRounds}
+          {selectedNumber > props.answer
+            ? "The answer is lower"
+            : "The answer is greater"}
         </Text>
+        <Text>Round: {rounds} </Text>
       </View>
     );
-    setguessRounds(guessRounds + 1);
+  }
+  const numberInputHandler = (inputText) => {
+    setEnteredValue(inputText);
   };
-
-  // ส่วนแสดงผลลัพธ์การทายตัวเลขของผู้เล่น
-  // if (confirmed) {
-  //   confirmedOutput = (
-  //     <View style={styles.resultContainer}>
-  //       <Text>You selected</Text>
-  //       <View style={styles.numberContainer}>
-  //         <Text style={styles.number}>...เพิ่มโค้ด แสดงตัวเลขของผู้เล่น...</Text>
-  //       </View>
-  //       <Text>...เพิ่มโค้ด แสดงผลลัพธ์การทายตัวเลข...</Text>;
-  //     </View>
-  //   );
-  // }
-
-  // ฟังก์ชันสำหรับอัพเดทค่าที่ผู้เล่นกรอกให้กับสเตท enteredValue
-  // const numberInputHandler = (inputText) => {
-  //   ...เพิ่มโค้ด...อัพเดทค่าสเตท enteredValue ด้วยค่า inputText ที่รับมา
-  // };
-
-  // ฟังก์ชันสำหรับเคลียร์ค่าในสเตท enteredValue
-  // const resetInputHandler = () => {
-  //   ...เพิ่มโค้ด...อัพเดทค่าสเตท enteredValue ให้เป็น ""
-  // };
-
-  // ฟังก์ชันสำหรับอัพเดทค่าสเตทต่างๆ เมื่อผู้เล่นกด confirm
-  // const confirmInputHandler = () => {
-  //   ...เพิ่มโค้ด แปลงค่า enteredValue ให้เป็นตัวเลข
-  //   ...เพิ่มโค้ด อัพเดทค่าในสเตทต่างๆ ตามที่กำหนด
-  // };
+  const resetInputHandler = () => {
+    setEnteredValue("");
+  };
+  const confirmInputHandler = () => {
+    setSelectedNumber(parseInt(enteredValue));
+    setConfirmed(true);
+    setEnteredValue("");
+    setRounds(rounds + 1);
+    Keyboard.dismiss();
+  };
 
   return (
     <View style={styles.screen}>
@@ -78,27 +62,22 @@ const GameScreen = (props) => {
           autoCorrect={false}
           keyboardType="number-pad"
           maxLength={2}
-          value={number}
-          onChangeText={(text) => {
-            setNumber(Number(text));
-          }}
-          //...เพิ่ม property value และ onChangeText...
+          value={enteredValue}
+          onChangeText={numberInputHandler}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button
               title="Reset"
               color={Colors.accent}
-              onPress={() => {
-                setNumber(0);
-              }}
+              onPress={resetInputHandler}
             />
           </View>
           <View style={styles.button}>
             <Button
               title="Confirm"
               color={Colors.primary}
-              onPress={confrimHandle}
+              onPress={confirmInputHandler}
             />
           </View>
         </View>

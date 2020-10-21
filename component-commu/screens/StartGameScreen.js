@@ -1,15 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 
-const StartGameScreen = ({ onStartGame }) => {
-  const rndNum = Math.floor(Math.random() * 100);
+const StartGameScreen = (props) => {
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>Welcome to My Game</Text>
       <Button
         title="START GAME"
         onPress={() => {
-          onStartGame();
+          props.onStartGame();
         }}
       />
     </View>
