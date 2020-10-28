@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import { View, Text, Button, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { Ionicons } from "@expo/vector-icons";
+import MealItem from "../components/MealItem"
+import { useSelector, useDispatch } from "react-redux";
+import { toggleFavorite, isFavorite } from "../store/actions/mealsAction"
+
+let dispatch
+let status
 
 const MealDetailScreen = (props) => {
   // เขียนโค้ดเพิ่ม เพื่อดึงอ็อบเจ๊คเมนูอาหารที่ผู้ใช้เลือกเอาไว้
-
   const mealID = props.navigation.getParam("id");
+  status = useSelector((state) => state)
+  dispatch = useDispatch();
+  // useEffect(() =>{
+  //   props.navigation.setParams({ toggleFav: toggleFavoriteHandle })
+  // }, [])
   const meal = MEALS.find((meal) => mealID === meal.id);
-  console.log(meal);
+  console.log(meal)
   const renderText = (value, id) =>{
     return <Text key={id}>{value}</Text>
   }
@@ -17,11 +27,16 @@ const MealDetailScreen = (props) => {
     <View style={styles.screen}>
 
     <ScrollView>
-      <Image style={styles.image} source={{uri:meal.imageUrl}} />
-    <Text>The Meal Detail Screen!</Text>
-      <Image sr />
-      <Text>{meal.title}</Text>
-      <Text>Ingredients</Text>
+    <MealItem
+        title={meal.title}
+        duration={meal.duration}
+        complexity={meal.complexity}
+        affordability={meal.affordability}
+        image={meal.imageUrl}
+        onSelectMeal={() => {
+        }}
+      />
+      <Text style={{ textAlign: "center", fontWeight: 'bold', fontSize: 20 }}>Ingredients</Text>
       {meal.ingredients.map(renderText)}
       <Text>Steps</Text>
       {meal.steps.map(renderText)}
@@ -40,13 +55,20 @@ const MealDetailScreen = (props) => {
 MealDetailScreen.navigationOptions = (navigationData) => {
   // เขียนโค้ดเพิ่มเพื่อแสดงชื่อเมนูอาหารที่เลือกให้เป็นเฮดเดอร์
   const mealID = navigationData.navigation.getParam("id");
+  const toggleFav = navigationData.navigation.getParam("toggleFav");
+  const isFavoriteHandle = () =>{
+    dispatch(isFavorite(mealID))
+  }
+  //const isFavoriteConst = isFavorite()
+  //console.log(navigationData.toggleFav)
   const meal = MEALS.find((meal) => mealID === meal.id);
   return { headerTitle: meal.title, headerRight:() => {
     return (
-      <TouchableOpacity
-        >
-          <Ionicons name="ios-star" size={25} />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={()=>{
+        toggleFav()
+        }}>
+          <Ionicons name="ios-star" size={50} color={"yellow"}/>
+      </TouchableOpacity>
     )
   }};
 };

@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import { CATEGORIES, MEALS } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
+import { useSelector } from 'react-redux';
 //import MealList from "../components/MealList";
 
 const CategoryMealsScreen = (props) => {
+  const availableMeals = useSelector(state => state.meals.filteredMeals)
+  console.log(availableMeals)
   //return <MealList prop={props} />;
   const renderMealItem = (itemData) => {
     return (
@@ -34,7 +37,7 @@ const CategoryMealsScreen = (props) => {
   };
 
   const catId = props.navigation.getParam("id");
-  const displayedMeals = MEALS.filter(
+  const displayedMeals = availableMeals.filter(
     (meal) => meal.categoryIds.indexOf(catId) >= 0
   );
 
