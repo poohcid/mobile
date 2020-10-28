@@ -20,9 +20,8 @@ const mealsReducer = (state=initialState, action) =>{
                 return {...state, favoriteMeals: state.favoriteMeals}
             }
             else{
-                const newFavoriteMeals = state.favoriteMeals.filter((item1) =>{
-                    console.log(item1.id, mealIndex)
-                    return !(item1.id === mealIndex)
+                const newFavoriteMeals = state.favoriteMeals.filter((item1, index) =>{
+                    return !(index === mealIndex)
                 })
                 console.log(newFavoriteMeals)
                 return {...state, favoriteMeals: newFavoriteMeals}

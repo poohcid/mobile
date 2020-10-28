@@ -7,12 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite, isFavorite } from "../store/actions/mealsAction"
 
 let dispatch
-let status
 
 const MealDetailScreen = (props) => {
   // เขียนโค้ดเพิ่ม เพื่อดึงอ็อบเจ๊คเมนูอาหารที่ผู้ใช้เลือกเอาไว้
   const mealID = props.navigation.getParam("id");
-  status = useSelector((state) => state)
   dispatch = useDispatch();
   // useEffect(() =>{
   //   props.navigation.setParams({ toggleFav: toggleFavoriteHandle })
@@ -59,13 +57,16 @@ MealDetailScreen.navigationOptions = (navigationData) => {
   const isFavoriteHandle = () =>{
     dispatch(isFavorite(mealID))
   }
+  const toggleFavoriteHandle = () =>{
+    dispatch(toggleFavorite(mealID))
+  }
   //const isFavoriteConst = isFavorite()
   //console.log(navigationData.toggleFav)
   const meal = MEALS.find((meal) => mealID === meal.id);
   return { headerTitle: meal.title, headerRight:() => {
     return (
       <TouchableOpacity onPress={()=>{
-        toggleFav()
+        toggleFavoriteHandle()
         }}>
           <Ionicons name="ios-star" size={50} color={"yellow"}/>
       </TouchableOpacity>
