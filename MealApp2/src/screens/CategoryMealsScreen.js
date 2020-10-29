@@ -14,7 +14,6 @@ import { useSelector } from 'react-redux';
 
 const CategoryMealsScreen = (props) => {
   const availableMeals = useSelector(state => state.meals.filteredMeals)
-  console.log(availableMeals)
   //return <MealList prop={props} />;
   const renderMealItem = (itemData) => {
     return (

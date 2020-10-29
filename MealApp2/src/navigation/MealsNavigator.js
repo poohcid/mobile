@@ -26,7 +26,7 @@ const FavNavigator = createStackNavigator(
     Favorites: {
       screen: FavoritesScreen,
     },
-    MealDetail: {
+    FavoritesMealDetail: {
       screen: MealDetailScreen,
     },
   },

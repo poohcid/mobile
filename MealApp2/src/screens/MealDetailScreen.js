@@ -6,17 +6,21 @@ import MealItem from "../components/MealItem"
 import { useSelector, useDispatch } from "react-redux";
 import { toggleFavorite, isFavorite } from "../store/actions/mealsAction"
 
-let dispatch
-
+//let dispatch
 const MealDetailScreen = (props) => {
   // เขียนโค้ดเพิ่ม เพื่อดึงอ็อบเจ๊คเมนูอาหารที่ผู้ใช้เลือกเอาไว้
   const mealID = props.navigation.getParam("id");
-  dispatch = useDispatch();
-  // useEffect(() =>{
-  //   props.navigation.setParams({ toggleFav: toggleFavoriteHandle })
-  // }, [])
+  const currentMealIsFav = useSelector((state) =>
+    state.meals.favoriteMeals.some((meal) => meal.id === mealID)
+  );
+  const dispatch = useDispatch();
+  const toggleFavoriteHandler = useCallback(() => {
+    dispatch(toggleFavorite(mealID));
+   }, [mealID])
+  useEffect(() =>{
+    props.navigation.setParams({ toggleFav: toggleFavoriteHandler, isFav: currentMealIsFav })
+  }, [toggleFavoriteHandler, currentMealIsFav])
   const meal = MEALS.find((meal) => mealID === meal.id);
-  console.log(meal)
   const renderText = (value, id) =>{
     return <Text key={id}>{value}</Text>
   }
@@ -54,21 +58,24 @@ MealDetailScreen.navigationOptions = (navigationData) => {
   // เขียนโค้ดเพิ่มเพื่อแสดงชื่อเมนูอาหารที่เลือกให้เป็นเฮดเดอร์
   const mealID = navigationData.navigation.getParam("id");
   const toggleFav = navigationData.navigation.getParam("toggleFav");
-  const isFavoriteHandle = () =>{
-    dispatch(isFavorite(mealID))
-  }
-  const toggleFavoriteHandle = () =>{
-    dispatch(toggleFavorite(mealID))
-  }
-  //const isFavoriteConst = isFavorite()
-  //console.log(navigationData.toggleFav)
+  const isFav = navigationData.navigation.getParam("isFav");
+  const color = "yellow"?isFav:"black"
+  console.log(isFav)
+  // const isFavoriteHandle = () =>{
+  //   dispatch(isFavorite(mealID))
+  // }
+  // const toggleFavoriteHandle = () =>{
+  //   dispatch(toggleFavorite(mealID))
+  // }
   const meal = MEALS.find((meal) => mealID === meal.id);
   return { headerTitle: meal.title, headerRight:() => {
     return (
       <TouchableOpacity onPress={()=>{
-        toggleFavoriteHandle()
+        //toggleFavoriteHandle()
+        toggleFav()
         }}>
-          <Ionicons name="ios-star" size={50} color={"yellow"}/>
+          {isFav && <Ionicons name="ios-star" size={50} color={'yellow'}/>}
+          {!isFav && <Ionicons name="ios-star" size={50} color={'black'}/>}
       </TouchableOpacity>
     )
   }};
