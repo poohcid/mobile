@@ -20,6 +20,9 @@ const MealDetailScreen = (props) => {
   const renderText = (value, id) =>{
     return <Text key={id}>{value}</Text>
   }
+  const toggleFavoriteHandle = () =>{
+    dispatch(toggleFavorite(mealID))
+  }
 
   return (
     <View style={styles.screen}>
@@ -44,6 +47,12 @@ const MealDetailScreen = (props) => {
           props.navigation.popToTop();
         }}
       />
+      <TouchableOpacity onPress={()=>{
+        toggleFavoriteHandle()
+        }}
+        style={{position: "absoluteFull", top: -10, right: 0}}>
+          <Ionicons name="ios-star" size={50} color={"yellow"}/>
+      </TouchableOpacity>
 
     </ScrollView>
     </View>
@@ -57,20 +66,17 @@ MealDetailScreen.navigationOptions = (navigationData) => {
   const isFavoriteHandle = () =>{
     dispatch(isFavorite(mealID))
   }
-  const toggleFavoriteHandle = () =>{
-    dispatch(toggleFavorite(mealID))
-  }
   //const isFavoriteConst = isFavorite()
   //console.log(navigationData.toggleFav)
   const meal = MEALS.find((meal) => mealID === meal.id);
   return { headerTitle: meal.title, headerRight:() => {
-    return (
-      <TouchableOpacity onPress={()=>{
-        toggleFavoriteHandle()
-        }}>
-          <Ionicons name="ios-star" size={50} color={"yellow"}/>
-      </TouchableOpacity>
-    )
+    // return (
+    //   <TouchableOpacity onPress={()=>{
+    //     toggleFavoriteHandle()
+    //     }}>
+    //       <Ionicons name="ios-star" size={50} color={"yellow"}/>
+    //   </TouchableOpacity>
+    // )
   }};
 };
 
