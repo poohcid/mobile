@@ -24,6 +24,9 @@ const MealDetailScreen = (props) => {
   const renderText = (value, id) =>{
     return <Text key={id}>{value}</Text>
   }
+  const toggleFavoriteHandle = () =>{
+    dispatch(toggleFavorite(mealID))
+  }
 
   return (
     <View style={styles.screen}>
@@ -48,6 +51,12 @@ const MealDetailScreen = (props) => {
           props.navigation.popToTop();
         }}
       />
+      <TouchableOpacity onPress={()=>{
+        toggleFavoriteHandle()
+        }}
+        style={{position: "absoluteFull", top: -10, right: 0}}>
+          <Ionicons name="ios-star" size={50} color={"yellow"}/>
+      </TouchableOpacity>
 
     </ScrollView>
     </View>
